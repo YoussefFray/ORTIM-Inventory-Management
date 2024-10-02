@@ -1,0 +1,45 @@
+package com.Inventory.Inventory_Management.product;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/api/v1/products")
+public class ProductController {
+
+    @Autowired
+    private ProductService productService;
+
+    @GetMapping
+    public List<Product> getAllProducts() {
+        return productService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> getProductById(@PathVariable UUID id) {
+        Product product = productService.findById(id);
+        return product != null ? ResponseEntity.ok(product) : ResponseEntity.notFound().build();
+    }
+
+    @PostMapping
+    public Product createProduct(@RequestBody Product product) {
+        return productService.save(product);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable UUID id, @RequestBody Product product) {
+        product.setId(id);
+        return ResponseEntity.ok(productService.save(product));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable UUID id) {
+        productService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+}
+
