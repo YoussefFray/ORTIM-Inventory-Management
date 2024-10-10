@@ -6,16 +6,19 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/api/v1/products")
 public class ProductController {
+private Logger logger = Logger.getLogger(String.valueOf(ProductController.class));
 
     @Autowired
     private ProductService productService;
 
     @GetMapping
     public List<Product> getAllProducts() {
+        logger.info("Getting all products");
         return productService.findAll();
     }
 
