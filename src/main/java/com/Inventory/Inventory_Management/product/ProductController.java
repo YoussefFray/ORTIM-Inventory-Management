@@ -1,6 +1,7 @@
 package com.Inventory.Inventory_Management.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,12 +16,12 @@ private Logger logger = Logger.getLogger(String.valueOf(ProductController.class)
 
     @Autowired
     private ProductService productService;
-
     @GetMapping
     public List<Product> getAllProducts() {
         logger.info("Getting all products");
         return productService.findAll();
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable UUID id) {
